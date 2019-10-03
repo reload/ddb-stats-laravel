@@ -1,15 +1,13 @@
 <?php
 
-use DDB\Stats\Collector;
-use DDB\Stats\StatisticsCollector;
-use DDB\Stats\StatisticsServiceProvider;
+namespace DDB\Stats;
+
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\ConnectionInterface;
 use Laravel\Lumen\Routing\Router;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
-// phpcs:ignore PSR1.Classes.ClassDeclaration.MissingNamespace
 class StatisticsServiceProviderTest extends TestCase
 {
     public function testRegistration()

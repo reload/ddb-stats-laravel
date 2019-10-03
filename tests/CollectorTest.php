@@ -1,11 +1,11 @@
 <?php
 
+namespace DDB\Stats;
+
 use PHPUnit\Framework\TestCase;
-use DDB\Stats\Collector;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Query\Builder;
 
-// phpcs:ignore PSR1.Classes.ClassDeclaration.MissingNamespace
 class CollectorTest extends TestCase
 {
     /**
