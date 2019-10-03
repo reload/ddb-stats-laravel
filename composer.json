@@ -23,7 +23,7 @@
         "sort-packages": true
     },
     "require-dev": {
-        "laravel/lumen-framework": "^6.0"
+        "laravel/lumen-framework": "^6.0",
         "phpunit/phpcov": "^6.0",
         "phpunit/phpunit": "^8.3"
     }
