@@ -25,6 +25,7 @@
     "require-dev": {
         "laravel/lumen-framework": "^6.0",
         "phpunit/phpcov": "^6.0",
-        "phpunit/phpunit": "^8.3"
+        "phpunit/phpunit": "^8.3",
+        "squizlabs/php_codesniffer": "^3.5"
     }
 }
