@@ -1,6 +1,7 @@
 <?php
 
-use DDB\Stats\StatisticsController;
+namespace DDB\Stats;
+
 use Illuminate\Http\Request;
 use PHPUnit\Framework\TestCase;
 
