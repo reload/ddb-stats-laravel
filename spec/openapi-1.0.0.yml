@@ -13,6 +13,10 @@ info:
     name: 'GNU General Public License v3.0'
     url: 'https://www.gnu.org/licenses/gpl-3.0.html'
 
+tags:
+  - name: 'Statistics'
+    description: 'Statistics handling'
+
 security:
   - BearerAuth: []
 
@@ -21,7 +25,7 @@ paths:
     patch:
       operationId: claimStatistics
       tags:
-        - List
+        - Statistics
       description: 'Claim events occurred within the system to be used for statistical purposes.'
       parameters:
         - schema:
