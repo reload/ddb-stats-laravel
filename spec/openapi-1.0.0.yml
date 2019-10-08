@@ -3,11 +3,11 @@ info:
   version: '1.0.0'
   title: 'DDB Statistics'
   description: |
-    Systems within the DDB digital infrastructure can collected events occouring within the system and expose them for consumption by an external system responsible for performing statistical analysis.
+    A system within the DDB digital infrastructure can collected events occouring within the system based on how the system is used. The system can then expose these events for consumption by an external system responsible for performing statistical usage analysis.
 
-    This describes a set of APIs which should be exposed by a system exposing events.
+    Here we describe an API which can use used by a system which exposes events.
 
-    Such a system is free to include this description and update descriptions to provide relevance to the current context.
+    Such a system is free to include this description and update textual description of indivdual elements to provide relevance to the current context.
     Paths, arguments and event property names should not be altered.
   license:
     name: 'GNU General Public License v3.0'
@@ -15,13 +15,14 @@ info:
 
 security:
   - BearerAuth: []
+
 paths:
   /statistics:
     patch:
       operationId: claimStatistics
       tags:
         - List
-      description: 'Claim events occured within the system to be used for statistical purposes.'
+      description: 'Claim events occurred within the system to be used for statistical purposes.'
       parameters:
         - schema:
             type: string
@@ -29,7 +30,8 @@ paths:
           in: query
           name: since
           description: |
-            From which point in time events should be returned. Defined as a datetime in ISO-8601 format.
+            The point in time from which events should be returned. Events occouring on the specified value should be included.
+            Defined as a datetime in ISO-8601 format.
             By specifying a value an external system also signals that all preceeding events already have been claimed and can be deleted by the system.
             If a value is not provided then all event collected by the system should be returned.
       responses:
@@ -49,27 +51,18 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
-  parameters:
-    dateTime:
-      name: 'dateTime'
-      in: 'query'
-      description: 'The identifier of the list to return. Use "default" for the default list.'
-      required: true
-      example: 'default'
-      schema:
-        $ref: '#/components/schemas/DateTime'
 
   schemas:
     DateTime:
-      description: When the event occoured. Use ISO-8601 format.
+      description: 'When the event occurred in ISO-8601 format.'
       type: string
       format: date-time
-      example: "2019-08-14T12:00:00Z"
+      example: '2019-08-14T12:00:00Z'
     ItemId:
-      description: An id for an item. What consitutes an item is defined by the system.
+      description: 'An id for an item. What constitutes an item is defined by the system.'
       type: string
     CollectionId:
-      description: An id for a collection of items. What constitues a collection of items is defined by the system.
+      description: 'An id for a collection of items. What constitues a collection of items is defined by the system.'
       type: string
     Event:
       type: object
@@ -81,27 +74,27 @@ components:
           $ref: '#/components/schemas/DateTime'
         clientId:
           type: string
-          description: The id of the client system on behalf of which the event is performed.
+          description: 'The id of the client system on behalf of which the event is performed.'
         guid:
           type: string
-          description: The globally unique identifier for the user on behalf of who the event is performed.
-        agency:
+          description: 'The globally unique identifier for the user on behalf of who the event is performed.'
+        agencyId:
           type: integer
-          description: The agency ID matching the users municipality. This is an ISIL number for the library without the "DK-" prefix.
+          description: 'The agency id matching the users municipality. This is an ISIL number for the library without the "DK-" prefix.'
           example: 710100
         event:
           type: string
-          description: The event name. Names use snake_case per convention.
-          example: claim_statistics
+          description: 'The event name. Names use snake_case per convention.'
+          example: 'claim_statistics'
         collectionId:
           $ref: '#/components/schemas/CollectionId'
         itemId:
           $ref: '#/components/schemas/ItemId'
         totalCount:
           type: integer
-          description: The total number of items in the collection after the event has been completed if relevant for the event.
+          description: 'The total number of items/collections after the event has been completed if relevant for the event.'
         collectionContent:
           type: array
           items:
             $ref: '#/components/schemas/ItemId'
-          description: The ids within the collection after the completion of the event if relevant for the event.
+          description: 'The ids within the collection after the completion of the event if relevant for the event.'
