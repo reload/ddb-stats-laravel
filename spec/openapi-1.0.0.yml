@@ -1,0 +1,104 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0'
+  title: 'DDB Statistics'
+  description: |
+    A system within the DDB digital infrastructure can collected events occouring within the system based on how the system is used. The system can then expose these events for consumption by an external system responsible for performing statistical usage analysis.
+
+    Here we describe an API which can use used by a system which exposes events.
+
+    Such a system is free to include this description and update textual description of indivdual elements to provide relevance to the current context.
+    Paths, arguments and event property names should not be altered.
+  license:
+    name: 'GNU General Public License v3.0'
+    url: 'https://www.gnu.org/licenses/gpl-3.0.html'
+
+tags:
+  - name: 'Statistics'
+    description: 'Statistics handling'
+
+security:
+  - BearerAuth: []
+
+paths:
+  /statistics:
+    patch:
+      operationId: claimStatistics
+      tags:
+        - Statistics
+      description: 'Claim events occurred within the system to be used for statistical purposes.'
+      parameters:
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: since
+          description: |
+            The point in time from which events should be returned. Events occouring on the specified value should be included.
+            Defined as a datetime in ISO-8601 format.
+            By specifying a value an external system also signals that all preceeding events already have been claimed and can be deleted by the system.
+            If a value is not provided then all event collected by the system should be returned.
+      responses:
+        200:
+          description: 'The list of events that have occurred since the specified point in time.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        default:
+          description: 'Unspecified error.'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    DateTime:
+      description: 'When the event occurred in ISO-8601 format.'
+      type: string
+      format: date-time
+      example: '2019-08-14T12:00:00Z'
+    ItemId:
+      description: 'An id for an item. What constitutes an item is defined by the system.'
+      type: string
+    CollectionId:
+      description: 'An id for a collection of items. What constitues a collection of items is defined by the system.'
+      type: string
+    Event:
+      type: object
+      required:
+        - date
+        - event
+      properties:
+        date:
+          $ref: '#/components/schemas/DateTime'
+        clientId:
+          type: string
+          description: 'The id of the client system on behalf of which the event is performed.'
+        guid:
+          type: string
+          description: 'The globally unique identifier for the user on behalf of who the event is performed.'
+        agencyId:
+          type: integer
+          description: 'The agency id matching the users municipality. This is an ISIL number for the library without the "DK-" prefix.'
+          example: 710100
+        event:
+          type: string
+          description: 'The event name. Names use snake_case per convention.'
+          example: 'claim_statistics'
+        collectionId:
+          $ref: '#/components/schemas/CollectionId'
+        itemId:
+          $ref: '#/components/schemas/ItemId'
+        totalCount:
+          type: integer
+          description: 'The total number of items/collections after the event has been completed if relevant for the event.'
+        collectionContent:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemId'
+          description: 'The ids within the collection after the completion of the event if relevant for the event.'
