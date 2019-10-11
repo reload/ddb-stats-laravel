@@ -22,7 +22,7 @@ class Collector implements StatisticsCollector
     /**
      * {@inheritdoc}
      */
-    public function event($guid, $event, $object_id, $item_id, $details)
+    public function event(string $guid, string $event, string $object_id, string $item_id, array $details = []): void
     {
         $this->database->table('statistics')->insert([
             'guid' => $guid,
