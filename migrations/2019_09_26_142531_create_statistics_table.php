@@ -21,7 +21,8 @@ class CreateStatisticsTable extends Migration
             $table->string('object_id');
             $table->string('item_id');
             $table->json('details');
-            $table->unique(['guid', 'list', 'material']);
+
+            $table->index('timestamp');
         });
     }
 
