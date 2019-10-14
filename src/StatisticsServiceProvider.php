@@ -24,7 +24,9 @@ class StatisticsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(StatisticsCollector::class, function ($app) {
-            return new Collector($app->make('db'));
+            /* @var \Illuminate\Database\DatabaseManager $database */
+            $database = $app->make('db');
+            return new Collector($database->connection());
         });
     }
 }
