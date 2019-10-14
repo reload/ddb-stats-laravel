@@ -31,7 +31,7 @@ class Collector implements StatisticsCollector
             'event' => $event,
             'object_id' => $object_id,
             'item_id' => $item_id,
-            'details' => $details,
+            'details' => json_encode($details),
         ]);
     }
 }

@@ -24,7 +24,7 @@ class CollectorTest extends TestCase
             'event' => 'event',
             'object_id' => 'object_id',
             'item_id' => 'item_id',
-            'details' => ['some' => 'value'],
+            'details' => json_encode(['some' => 'value']),
         ])->shouldBeCalled();
         $db = $this->prophesize(ConnectionInterface::class);
         $db->table('statistics')->willReturn($builder);
