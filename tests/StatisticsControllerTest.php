@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class StatisticsControllerTest extends TestCase
 {
-    public function testGet()
+    public function testPatch()
     {
         $controller = new StatisticsController();
 
@@ -38,7 +38,7 @@ class StatisticsControllerTest extends TestCase
         ]]);
         $this->assertEquals(
             $response,
-            $controller->get($request->reveal())
+            $controller->patch($request->reveal())
         );
     }
 
@@ -83,6 +83,6 @@ class StatisticsControllerTest extends TestCase
         $request->get('since')->willReturn(date('r', $now));
 
         $this->expectException(HttpException::class);
-        $controller->get($request->reveal());
+        $controller->patch($request->reveal());
     }
 }

@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class StatisticsController extends Controller
 {
 
-    public function get(Request $request)
+    public function patch(Request $request)
     {
         $query = DB::table('statistics')
             ->orderBy('timestamp', 'ASC');

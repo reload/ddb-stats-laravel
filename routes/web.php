@@ -12,4 +12,4 @@
 */
 
 /* @var \Laravel\Lumen\Routing\Router $router */
-$router->get('/statistics', '\\DDB\\Stats\\StatisticsController@get');
+$router->patch('/statistics', '\\DDB\\Stats\\StatisticsController@patch');

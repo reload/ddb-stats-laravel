@@ -32,7 +32,7 @@ class IntegrationTest extends TestCase
         $collector = $this->app->get(StatisticsCollector::class);
         $collector->event('guid', 'event', 'object', 'item', ['extra1', 'extra2']);
 
-        $response = $this->json('GET', 'statistics');
+        $response = $this->json('PATCH', 'statistics');
         $statistics = $response->json();
         $this->assertEquals(
             [
