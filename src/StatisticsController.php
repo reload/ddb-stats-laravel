@@ -3,6 +3,7 @@
 namespace DDB\Stats;
 
 use Carbon\Carbon;
+use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Laravel\Lumen\Routing\Controller;
@@ -11,9 +12,17 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class StatisticsController extends Controller
 {
 
+    /** @var \Illuminate\Database\DatabaseManager */
+    private $database;
+
+    public function __construct(DatabaseManager $database)
+    {
+        $this->database = $database;
+    }
+
     public function patch(Request $request)
     {
-        $query = DB::table('statistics')
+        $query = $this->database->table('statistics')
             ->orderBy('timestamp', 'ASC');
         if ($request->has('since')) {
             try {

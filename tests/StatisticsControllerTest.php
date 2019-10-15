@@ -2,18 +2,19 @@
 
 namespace DDB\Stats;
 
+use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class StatisticsControllerTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     public function testPatch()
     {
-        $controller = new StatisticsController();
-
         $now = time();
 
         $result = new Collection();
@@ -25,7 +26,12 @@ class StatisticsControllerTest extends TestCase
           'item_id' => 'item_id',
           'details' => json_encode(['some' => 'value']),
         ]);
-        DB::shouldReceive('table->orderBy->get')->andReturn($result);
+
+        $database = \Mockery::mock(DatabaseManager::class);
+        $database->shouldReceive('table->orderBy->get')->andReturn($result);
+
+        $controller = new StatisticsController($database);
+
 
         $request = $this->prophesize(Request::class);
 
@@ -44,15 +50,10 @@ class StatisticsControllerTest extends TestCase
 
     public function testSince()
     {
-        $controller = new StatisticsController();
-
         $now = time();
 
-        $request = $this->prophesize(Request::class);
-        $request->has('since')->willReturn(true);
-        $request->get('since')->willReturn(date('c', $now));
-
-        DB::shouldReceive('table')
+        $database = \Mockery::mock(DatabaseManager::class);
+        $database->shouldReceive('table')
             ->with('statistics')
             ->andReturnSelf()
             ->shouldReceive('orderBy')
@@ -65,16 +66,22 @@ class StatisticsControllerTest extends TestCase
             ->shouldReceive('get')
             ->andReturn(new Collection());
 
-        // FIXME: For some reason the test reports that the where() method
-        // does not exist.
-        // $response = $controller->get($request->reveal());
-        // $this->assertInstanceOf(Collection::class, $response);
-        $this->assertTrue(true);
+        $controller = new StatisticsController($database);
+
+        $request = $this->prophesize(Request::class);
+        $request->has('since')->willReturn(true);
+        $request->get('since')->willReturn(date('c', $now));
+
+        $response = $controller->patch($request->reveal());
+        $this->assertInstanceOf(Collection::class, $response);
     }
 
     public function testInvalidSince()
     {
-        $controller = new StatisticsController();
+        $database = \Mockery::mock(DatabaseManager::class);
+        $database->shouldReceive('table->orderBy');
+
+        $controller = new StatisticsController($database);
 
         $now = time();
 
