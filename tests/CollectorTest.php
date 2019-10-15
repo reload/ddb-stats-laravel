@@ -3,12 +3,15 @@
 namespace DDB\Stats;
 
 use Carbon\Carbon;
+use Illuminate\Database\DatabaseManager;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
-use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Query\Builder;
 
 class CollectorTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /**
      * Test that adding events sends it to the DB.
      */
@@ -17,19 +20,19 @@ class CollectorTest extends TestCase
         $now = Carbon::now();
         Carbon::setTestNow($now);
 
-        $builder = $this->prophesize(Builder::class);
-        $builder->insert([
+        $builder = \Mockery::mock(Builder::class);
+        $builder->shouldReceive('insert')->with([
             'timestamp' => $now->timestamp,
             'guid' => 'guid',
             'event' => 'event',
             'object_id' => 'object_id',
             'item_id' => 'item_id',
             'details' => json_encode(['some' => 'value']),
-        ])->shouldBeCalled();
-        $db = $this->prophesize(ConnectionInterface::class);
-        $db->table('statistics')->willReturn($builder);
+        ])->once();
+        $db = \Mockery::mock(DatabaseManager::class);
+        $db->shouldReceive('table')->with('statistics')->andReturn($builder);
 
-        $collector = new Collector($db->reveal());
+        $collector = new Collector($db);
         $collector->event('guid', 'event', 'object_id', 'item_id', ['some' => 'value']);
     }
 }

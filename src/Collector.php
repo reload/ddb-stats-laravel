@@ -3,7 +3,7 @@
 namespace DDB\Stats;
 
 use Carbon\Carbon;
-use Illuminate\Database\ConnectionInterface;
+use Illuminate\Database\DatabaseManager;
 
 class Collector implements StatisticsCollector
 {
@@ -11,11 +11,11 @@ class Collector implements StatisticsCollector
     /**
      * Database to store stats in.
      *
-     * @var \Illuminate\Database\ConnectionInterface
+     * @var \Illuminate\Database\DatabaseManager
      */
     protected $database;
 
-    public function __construct(ConnectionInterface $database)
+    public function __construct(DatabaseManager $database)
     {
         $this->database = $database;
     }
