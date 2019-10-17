@@ -2,7 +2,8 @@
 
 namespace DDB\Stats;
 
-use Illuminate\Database\ConnectionInterface;
+use Carbon\Carbon;
+use Illuminate\Database\DatabaseManager;
 
 class Collector implements StatisticsCollector
 {
@@ -10,11 +11,11 @@ class Collector implements StatisticsCollector
     /**
      * Database to store stats in.
      *
-     * @var \Illuminate\Database\ConnectionInterface
+     * @var \Illuminate\Database\DatabaseManager
      */
     protected $database;
 
-    public function __construct(ConnectionInterface $database)
+    public function __construct(DatabaseManager $database)
     {
         $this->database = $database;
     }
@@ -22,14 +23,15 @@ class Collector implements StatisticsCollector
     /**
      * {@inheritdoc}
      */
-    public function event($guid, $event, $object_id, $item_id, $details)
+    public function event(string $guid, string $event, string $object_id, string $item_id, array $details = []): void
     {
         $this->database->table('statistics')->insert([
+            'timestamp' => Carbon::now()->timestamp,
             'guid' => $guid,
             'event' => $event,
             'object_id' => $object_id,
             'item_id' => $item_id,
-            'details' => $details,
+            'details' => json_encode($details),
         ]);
     }
 }

@@ -3,3 +3,7 @@ parameters:
     paths:
         - src
         - tests
+    ignoreErrors:
+        # This should be handled by https://github.com/phpstan/phpstan-mockery
+        # but that does not seem to work at the moment.
+        - '#Call to an undefined method Mockery\\Expectation::shouldReceive\(\)#'

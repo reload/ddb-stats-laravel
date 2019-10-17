@@ -15,11 +15,14 @@ class StatisticsServiceProvider extends ServiceProvider
         }
     }
 
-    public function register(): void
+    public function boot(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+    }
 
+    public function register()
+    {
         $this->app->singleton(StatisticsCollector::class, function ($app) {
             return new Collector($app->make('db'));
         });
