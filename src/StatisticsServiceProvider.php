@@ -26,5 +26,7 @@ class StatisticsServiceProvider extends ServiceProvider
         $this->app->singleton(StatisticsCollector::class, function ($app) {
             return new Collector($app->make('db'));
         });
+
+        $this->app->register(StatisticsEventsServiceProvider::class);
     }
 }
