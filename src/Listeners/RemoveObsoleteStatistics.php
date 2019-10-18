@@ -1,7 +1,8 @@
 <?php
 
-namespace DDB\Stats;
+namespace DDB\Stats\Listeners;
 
+use DDB\Stats\Events\StatisticsClaimed;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\DatabaseManager;
 

@@ -1,8 +1,9 @@
 <?php
 
-namespace DDB\Stats;
+namespace DDB\Stats\Controllers;
 
 use Carbon\Carbon;
+use DDB\Stats\Events\StatisticsClaimed;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;

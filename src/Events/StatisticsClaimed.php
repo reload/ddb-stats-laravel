@@ -1,6 +1,6 @@
 <?php
 
-namespace DDB\Stats;
+namespace DDB\Stats\Events;
 
 use Carbon\CarbonInterface;
 

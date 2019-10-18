@@ -1,7 +1,9 @@
 <?php
 
-namespace DDB\Stats;
+namespace DDB\Stats\ServiceProviders;
 
+use DDB\Stats\Collector;
+use DDB\Stats\StatisticsCollector;
 use Illuminate\Support\ServiceProvider;
 
 class StatisticsServiceProvider extends ServiceProvider
@@ -17,8 +19,8 @@ class StatisticsServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadMigrationsFrom(__DIR__ . '/../../migrations');
+        $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
     }
 
     public function register()

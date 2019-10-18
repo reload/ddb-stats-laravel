@@ -4,6 +4,7 @@ namespace DDB\Stats;
 
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use DDB\Stats\ServiceProviders\StatisticsServiceProvider;
 use Illuminate\Foundation\Testing\PendingCommand;
 use Orchestra\Testbench\TestCase;
 

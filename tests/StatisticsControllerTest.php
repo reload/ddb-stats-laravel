@@ -2,6 +2,8 @@
 
 namespace DDB\Stats;
 
+use DDB\Stats\Controllers\StatisticsController;
+use DDB\Stats\Events\StatisticsClaimed;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;
