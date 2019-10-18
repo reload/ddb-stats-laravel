@@ -2,6 +2,9 @@
 
 namespace DDB\Stats;
 
+use DDB\Stats\Controllers\StatisticsController;
+use DDB\Stats\Events\StatisticsClaimed;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -30,8 +33,13 @@ class StatisticsControllerTest extends TestCase
         $database = \Mockery::mock(DatabaseManager::class);
         $database->shouldReceive('table->orderBy->get')->andReturn($result);
 
-        $controller = new StatisticsController($database);
+        $dispatcher = \Mockery::mock(Dispatcher::class);
+        $dispatcher->shouldReceive('dispatch')
+            ->withArgs(function (StatisticsClaimed $event) {
+                return $event->getSince() === null;
+            });
 
+        $controller = new StatisticsController($database, $dispatcher);
 
         $request = $this->prophesize(Request::class);
 
@@ -66,7 +74,14 @@ class StatisticsControllerTest extends TestCase
             ->shouldReceive('get')
             ->andReturn(new Collection());
 
-        $controller = new StatisticsController($database);
+        $dispatcher = \Mockery::mock(Dispatcher::class);
+        $dispatcher->shouldReceive('dispatch')
+            ->withArgs(function (StatisticsClaimed $event) use ($now) {
+                $since = $event->getSince();
+                return ($since !== null) && ($since->getTimestamp() === $now);
+            });
+
+        $controller = new StatisticsController($database, $dispatcher);
 
         $request = $this->prophesize(Request::class);
         $request->has('since')->willReturn(true);
@@ -81,7 +96,9 @@ class StatisticsControllerTest extends TestCase
         $database = \Mockery::mock(DatabaseManager::class);
         $database->shouldReceive('table->orderBy');
 
-        $controller = new StatisticsController($database);
+        $dispatcher = \Mockery::mock(Dispatcher::class);
+
+        $controller = new StatisticsController($database, $dispatcher);
 
         $now = time();
 
