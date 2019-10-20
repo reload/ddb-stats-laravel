@@ -16,10 +16,10 @@ class CreateStatisticsTable extends Migration
     {
         Schema::create('statistics', function (Blueprint $table) {
             $table->timestamp('timestamp', 6);
-            $table->string('guid');
+            $table->string('guid')->nullable();
             $table->string('event');
-            $table->string('object_id');
-            $table->string('item_id');
+            $table->string('object_id')->nullable();
+            $table->string('item_id')->nullable();
             $table->json('details');
 
             $table->index('timestamp');
