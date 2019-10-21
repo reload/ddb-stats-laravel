@@ -13,13 +13,13 @@ interface StatisticsCollector
      *   is performed.
      * @param string $event
      *   The event name. Names use snake_case per convention.
-     * @param string|null $collection_id
+     * @param string|null $collectionId
      *   The id for a collection of items. What constitues a collection of items
      *   is defined by the system.
-     * @param string|null $item_id
+     * @param string|null $itemId
      *   The id for an item related to the event. What constitutes an item is
      *   defined by the system.
-     * @param int|null $total_count
+     * @param int|null $totalCount
      *   The total number of items/collections after the event has been
      *   completed if relevant for the event.
      * @param string[] $content
@@ -29,9 +29,9 @@ interface StatisticsCollector
     public function event(
         ?string $guid,
         string $event,
-        ?string $collection_id = null,
-        ?string $item_id = null,
-        ?int $total_count = null,
+        ?string $collectionId = null,
+        ?string $itemId = null,
+        ?int $totalCount = null,
         array $content = []
     ): void;
 }

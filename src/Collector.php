@@ -26,18 +26,18 @@ class Collector implements StatisticsCollector
     public function event(
         ?string $guid,
         string $event,
-        ?string $collection_id = null,
-        ?string $item_id = null,
-        ?int $total_count = null,
+        ?string $collectionId = null,
+        ?string $itemId = null,
+        ?int $totalCount = null,
         array $content = []
     ): void {
         $this->database->table('statistics')->insert([
             'timestamp' => Carbon::now()->timestamp,
             'guid' => $guid,
             'event' => $event,
-            'collection_id' => $collection_id,
-            'item_id' => $item_id,
-            'total_count' => $total_count,
+            'collection_id' => $collectionId,
+            'item_id' => $itemId,
+            'total_count' => $totalCount,
             'content' => json_encode($content),
         ]);
     }
