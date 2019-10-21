@@ -23,15 +23,22 @@ class Collector implements StatisticsCollector
     /**
      * {@inheritdoc}
      */
-    public function event(string $guid, string $event, string $object_id, string $item_id, array $details = []): void
-    {
+    public function event(
+        ?string $guid,
+        string $event,
+        ?string $collectionId = null,
+        ?string $itemId = null,
+        ?int $totalCount = null,
+        array $content = []
+    ): void {
         $this->database->table('statistics')->insert([
             'timestamp' => Carbon::now()->timestamp,
             'guid' => $guid,
             'event' => $event,
-            'object_id' => $object_id,
-            'item_id' => $item_id,
-            'details' => json_encode($details),
+            'collection_id' => $collectionId,
+            'item_id' => $itemId,
+            'total_count' => $totalCount,
+            'content' => json_encode($content),
         ]);
     }
 }

@@ -25,9 +25,10 @@ class StatisticsControllerTest extends TestCase
           'timestamp' => $now,
           'guid' => 'guid',
           'event' => 'event',
-          'object_id' => 'object_id',
+          'collection_id' => 'collection_id',
           'item_id' => 'item_id',
-          'details' => json_encode(['some' => 'value']),
+          'total_count' => 42,
+          'content' => json_encode(['item1', 'item2']),
         ]);
 
         $database = \Mockery::mock(DatabaseManager::class);
@@ -47,8 +48,10 @@ class StatisticsControllerTest extends TestCase
            'date' => date('c', $now),
            'guid' => 'guid',
            'event' => 'event',
-           'collectionId' => 'object_id',
-           'itemId' => 'item_id'
+           'collectionId' => 'collection_id',
+           'itemId' => 'item_id',
+           'totalCount' => 42,
+           'content' => ['item1', 'item2'],
         ]]);
         $this->assertEquals(
             $response,

@@ -32,7 +32,7 @@ class IntegrationTest extends TestCase
         Carbon::setTestNow($now);
 
         $collector = $this->app->get(StatisticsCollector::class);
-        $collector->event('guid', 'event', 'object', 'item', ['extra1', 'extra2']);
+        $collector->event('guid', 'event', 'object', 'item', 42, ['item1', 'item2']);
 
         $response = $this->json('PATCH', 'statistics');
         $statistics = $response->json();
@@ -42,7 +42,9 @@ class IntegrationTest extends TestCase
                 'guid' => 'guid',
                 'event' => 'event',
                 'collectionId' => 'object',
-                'itemId' => 'item'
+                'itemId' => 'item',
+                'totalCount' => 42,
+                'content' => ['item1', 'item2'],
             ],
             $statistics[0]
         );
@@ -56,7 +58,7 @@ class IntegrationTest extends TestCase
         // Event is created yesterday
         Carbon::setTestNow($yesterday);
         $collector = $this->app->get(StatisticsCollector::class);
-        $collector->event('guid', 'event', 'object', 'item', ['extra1', 'extra2']);
+        $collector->event('guid', 'event', 'object', 'item', 42, ['item1', 'item2']);
 
         // Ensure that the event is available.
         $response = $this->json('PATCH', 'statistics');
