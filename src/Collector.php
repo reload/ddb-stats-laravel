@@ -26,7 +26,7 @@ class Collector implements StatisticsCollector
     public function event(
         ?string $guid,
         string $event,
-        ?string $object_id = null,
+        ?string $collection_id = null,
         ?string $item_id = null,
         array $details = []
     ): void {
@@ -34,7 +34,7 @@ class Collector implements StatisticsCollector
             'timestamp' => Carbon::now()->timestamp,
             'guid' => $guid,
             'event' => $event,
-            'object_id' => $object_id,
+            'collection_id' => $collection_id,
             'item_id' => $item_id,
             'details' => json_encode($details),
         ]);

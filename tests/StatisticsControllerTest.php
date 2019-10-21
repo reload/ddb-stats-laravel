@@ -25,7 +25,7 @@ class StatisticsControllerTest extends TestCase
           'timestamp' => $now,
           'guid' => 'guid',
           'event' => 'event',
-          'object_id' => 'object_id',
+          'collection_id' => 'collection_id',
           'item_id' => 'item_id',
           'details' => json_encode(['some' => 'value']),
         ]);
@@ -47,7 +47,7 @@ class StatisticsControllerTest extends TestCase
            'date' => date('c', $now),
            'guid' => 'guid',
            'event' => 'event',
-           'collectionId' => 'object_id',
+           'collectionId' => 'collection_id',
            'itemId' => 'item_id'
         ]]);
         $this->assertEquals(

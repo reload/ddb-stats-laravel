@@ -41,13 +41,13 @@ class StatisticsController extends Controller
             }
         }
 
-        $result = $query->get(['timestamp', 'guid', 'event', 'object_id', 'item_id', 'details']);
+        $result = $query->get(['timestamp', 'guid', 'event', 'collection_id', 'item_id', 'details']);
         $response = $result->map(function (\stdClass $values) {
             return [
                 'date' => (Carbon::createFromTimestamp($values->timestamp))->toIso8601String(),
                 'guid' => $values->guid,
                 'event' => $values->event,
-                'collectionId' => $values->object_id,
+                'collectionId' => $values->collection_id,
                 'itemId' => $values->item_id,
             ];
         });

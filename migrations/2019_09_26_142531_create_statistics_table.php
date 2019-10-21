@@ -18,7 +18,7 @@ class CreateStatisticsTable extends Migration
             $table->timestamp('timestamp', 6);
             $table->string('guid')->nullable();
             $table->string('event');
-            $table->string('object_id')->nullable();
+            $table->string('collection_id')->nullable();
             $table->string('item_id')->nullable();
             $table->json('details');
 
