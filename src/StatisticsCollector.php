@@ -10,6 +10,7 @@ interface StatisticsCollector
         string $event,
         ?string $collection_id = null,
         ?string $item_id = null,
-        array $details = []
+        ?int $total_count = null,
+        array $content = []
     ): void;
 }

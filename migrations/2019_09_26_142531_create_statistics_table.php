@@ -20,7 +20,8 @@ class CreateStatisticsTable extends Migration
             $table->string('event');
             $table->string('collection_id')->nullable();
             $table->string('item_id')->nullable();
-            $table->json('details');
+            $table->integer('total_count')->nullable();
+            $table->json('content');
 
             $table->index('timestamp');
         });

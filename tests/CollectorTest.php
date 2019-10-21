@@ -27,12 +27,13 @@ class CollectorTest extends TestCase
             'event' => 'event',
             'collection_id' => 'collection_id',
             'item_id' => 'item_id',
-            'details' => json_encode(['some' => 'value']),
+            'total_count' => 42,
+            'content' => json_encode(['item1', 'item2']),
         ])->once();
         $db = \Mockery::mock(DatabaseManager::class);
         $db->shouldReceive('table')->with('statistics')->andReturn($builder);
 
         $collector = new Collector($db);
-        $collector->event('guid', 'event', 'collection_id', 'item_id', ['some' => 'value']);
+        $collector->event('guid', 'event', 'collection_id', 'item_id', 42, ['item1', 'item2']);
     }
 }
