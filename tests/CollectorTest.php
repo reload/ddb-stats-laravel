@@ -22,7 +22,7 @@ class CollectorTest extends TestCase
 
         $builder = \Mockery::mock(Builder::class);
         $builder->shouldReceive('insert')->with([
-            'timestamp' => $now->timestamp,
+            'timestamp' => $now,
             'guid' => 'guid',
             'event' => 'event',
             'collection_id' => 'collection_id',

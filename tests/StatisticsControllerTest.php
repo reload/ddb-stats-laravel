@@ -2,6 +2,7 @@
 
 namespace DDB\Stats;
 
+use Carbon\Carbon;
 use DDB\Stats\Controllers\StatisticsController;
 use DDB\Stats\Events\StatisticsClaimed;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -18,7 +19,7 @@ class StatisticsControllerTest extends TestCase
 
     public function testPatch()
     {
-        $now = time();
+        $now = Carbon::now();
 
         $result = new Collection();
         $result->add((object) [
@@ -45,7 +46,7 @@ class StatisticsControllerTest extends TestCase
         $request = $this->prophesize(Request::class);
 
         $response = new Collection([[
-           'date' => date('c', $now),
+           'date' => $now->toIso8601String(),
            'guid' => 'guid',
            'event' => 'event',
            'collectionId' => 'collection_id',
@@ -61,7 +62,7 @@ class StatisticsControllerTest extends TestCase
 
     public function testSince()
     {
-        $now = time();
+        $now = Carbon::now();
 
         $database = \Mockery::mock(DatabaseManager::class);
         $database->shouldReceive('table')
@@ -71,7 +72,11 @@ class StatisticsControllerTest extends TestCase
             ->with('timestamp', 'ASC')
             ->andReturnSelf()
             ->shouldReceive('where')
-            ->with('timestamp', '>=', $now)
+            ->withArgs(function (string $column, string $operator, Carbon $value) use ($now) {
+                return $column === 'timestamp' &&
+                    $operator === ">=" &&
+                    $value->getTimestamp() == $now->getTimestamp();
+            })
             ->once()
             ->andReturnSelf()
             ->shouldReceive('get')
@@ -81,14 +86,14 @@ class StatisticsControllerTest extends TestCase
         $dispatcher->shouldReceive('dispatch')
             ->withArgs(function (StatisticsClaimed $event) use ($now) {
                 $since = $event->getSince();
-                return ($since !== null) && ($since->getTimestamp() === $now);
+                return $since !== null && $since->getTimestamp() === $now->getTimestamp();
             });
 
         $controller = new StatisticsController($database, $dispatcher);
 
         $request = $this->prophesize(Request::class);
         $request->has('since')->willReturn(true);
-        $request->get('since')->willReturn(date('c', $now));
+        $request->get('since')->willReturn($now->toIso8601String());
 
         $response = $controller->patch($request->reveal());
         $this->assertInstanceOf(Collection::class, $response);
