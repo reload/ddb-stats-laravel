@@ -32,7 +32,7 @@ class Collector implements StatisticsCollector
         array $content = []
     ): void {
         $this->database->table('statistics')->insert([
-            'timestamp' => Carbon::now()->timestamp,
+            'timestamp' => Carbon::now(),
             'guid' => $guid,
             'event' => $event,
             'collection_id' => $collectionId,

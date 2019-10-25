@@ -20,7 +20,7 @@ class RemoveObsoleteStatistics implements ShouldQueue
         $since = $event->getSince();
         if ($since !== null) {
             $this->database->table('statistics')
-                ->where('timestamp', '<', $since->getTimestamp())
+                ->where('timestamp', '<', $since)
                 ->delete();
         }
     }

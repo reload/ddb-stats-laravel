@@ -35,7 +35,7 @@ class StatisticsController extends Controller
                 if (!$since) {
                     throw new \InvalidArgumentException('Unable to create date from format');
                 }
-                $query = $query->where('timestamp', '>=', $since->getTimestamp());
+                $query = $query->where('timestamp', '>=', $since);
             } catch (\InvalidArgumentException $e) {
                 throw new HttpException(400, 'Invalid since parameter. Please use ISO 8601 format.', $e);
             }
@@ -44,12 +44,12 @@ class StatisticsController extends Controller
         $result = $query->get(['timestamp', 'guid', 'event', 'collection_id', 'item_id', 'total_count', 'content']);
         $response = $result->map(function (\stdClass $values) {
             return [
-                'date' => (Carbon::createFromTimestamp($values->timestamp))->toIso8601String(),
+                'date' => (Carbon::createFromTimeString($values->timestamp))->toIso8601String(),
                 'guid' => $values->guid,
                 'event' => $values->event,
                 'collectionId' => $values->collection_id,
                 'itemId' => $values->item_id,
-                'totalCount' => $values->total_count,
+                'totalCount' => (int) $values->total_count,
                 'content' => json_decode($values->content),
             ];
         });
