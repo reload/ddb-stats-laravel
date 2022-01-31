@@ -8,11 +8,9 @@ use Illuminate\Support\ServiceProvider;
 
 class StatisticsServiceProvider extends ServiceProvider
 {
-
     protected function loadRoutesFrom($path)
     {
-        if (! $this->app->routesAreCached()) {
-            $router = $this->app->make('router');
+        if ($router = $this->app->router ?? $this->app->make('router')) {
             require $path;
         }
     }
