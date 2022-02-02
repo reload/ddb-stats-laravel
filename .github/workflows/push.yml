@@ -29,7 +29,7 @@ jobs:
         uses: docker://php:7.3-alpine
         with:
           entrypoint: vendor/bin/phpstan
-          args: analyse
+          args: analyse --memory-limit 1G
   unit_tests:
     name: Unit tests
     if: '!github.event.deleted'
