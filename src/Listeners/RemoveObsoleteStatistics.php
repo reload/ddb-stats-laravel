@@ -8,6 +8,7 @@ use Illuminate\Database\DatabaseManager;
 
 class RemoveObsoleteStatistics implements ShouldQueue
 {
+    /** @var \Illuminate\Database\DatabaseManager */
     private $database;
 
     public function __construct(DatabaseManager $database)

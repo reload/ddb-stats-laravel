@@ -7,12 +7,12 @@ use DDB\Stats\Events\StatisticsClaimed;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Laravel\Lumen\Routing\Controller;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class StatisticsController extends Controller
 {
-
     /** @var \Illuminate\Database\DatabaseManager */
     private $database;
 
@@ -25,13 +25,15 @@ class StatisticsController extends Controller
         $this->dispatchcer = $dispatcher;
     }
 
-    public function patch(Request $request)
+    public function patch(Request $request): Collection
     {
         $query = $this->database->table('statistics')
             ->orderBy('timestamp', 'ASC');
         if ($request->has('since')) {
+            /** @var string $sinceParam */
+            $sinceParam = $request->get('since');
             try {
-                $since = Carbon::createFromFormat(DATE_ATOM, $request->get('since'));
+                $since = Carbon::createFromFormat(DATE_ATOM, $sinceParam);
                 if (!$since) {
                     throw new \InvalidArgumentException('Unable to create date from format');
                 }

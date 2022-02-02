@@ -10,6 +10,8 @@ class StatisticsServiceProvider extends ServiceProvider
 {
     protected function loadRoutesFrom($path)
     {
+        // $router is needed by the required route file.
+        /** @phpstan-ignore-next-line */
         if ($router = $this->app->router ?? $this->app->make('router')) {
             require $path;
         }

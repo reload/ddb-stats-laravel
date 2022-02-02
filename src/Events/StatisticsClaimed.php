@@ -6,7 +6,7 @@ use Carbon\CarbonInterface;
 
 class StatisticsClaimed
 {
-    /* @var \Carbon\CarbonInterface|null */
+    /** @var \Carbon\CarbonInterface|null */
     protected $since;
 
     /**
@@ -20,6 +20,6 @@ class StatisticsClaimed
 
     public function getSince(): ?CarbonInterface
     {
-        return  $this->since;
+        return $this->since;
     }
 }

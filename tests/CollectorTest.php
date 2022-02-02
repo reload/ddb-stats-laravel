@@ -15,7 +15,7 @@ class CollectorTest extends TestCase
     /**
      * Test that adding events sends it to the DB.
      */
-    public function testEvent()
+    public function testEvent(): void
     {
         $now = Carbon::now();
         Carbon::setTestNow($now);

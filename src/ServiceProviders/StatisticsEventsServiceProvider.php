@@ -17,7 +17,7 @@ if (class_exists('\Laravel\Lumen\Providers\EventServiceProvider')) {
 
 class StatisticsEventsServiceProvider extends \Illuminate\Foundation\Support\Providers\EventServiceProvider
 {
-
+    /** @var string[][] */
     protected $listen = [
         StatisticsClaimed::class => [
             RemoveObsoleteStatistics::class
