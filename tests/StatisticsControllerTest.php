@@ -17,7 +17,7 @@ class StatisticsControllerTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    public function testPatch()
+    public function testPatch(): void
     {
         $now = Carbon::now();
 
@@ -60,7 +60,7 @@ class StatisticsControllerTest extends TestCase
         );
     }
 
-    public function testSince()
+    public function testSince(): void
     {
         $now = Carbon::now();
 
@@ -99,7 +99,7 @@ class StatisticsControllerTest extends TestCase
         $this->assertInstanceOf(Collection::class, $response);
     }
 
-    public function testInvalidSince()
+    public function testInvalidSince(): void
     {
         $database = \Mockery::mock(DatabaseManager::class);
         $database->shouldReceive('table->orderBy');

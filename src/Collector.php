@@ -7,7 +7,6 @@ use Illuminate\Database\DatabaseManager;
 
 class Collector implements StatisticsCollector
 {
-
     /**
      * Database to store stats in.
      *

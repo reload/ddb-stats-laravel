@@ -29,14 +29,14 @@ jobs:
         uses: docker://php:7.3-alpine
         with:
           entrypoint: vendor/bin/phpstan
-          args: analyse
+          args: analyse --memory-limit=-1
   unit_tests:
     name: Unit tests
     if: '!github.event.deleted'
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ["7.2", "7.3", "7.4"]
+        php-version: ["7.3", "7.4"]
         composer-update: ["", "--prefer-stable --prefer-lowest"]
       fail-fast: false
     steps:
@@ -47,10 +47,11 @@ jobs:
           php-version: ${{ matrix.php-version }}
           # These extensions are required by PHP 7.4
           extension-csv: mbstring, xmlwriter
+          coverage: xdebug
       - name: Composer update
         run: composer update ${{ matrix.composer-update }}
       - name: Unit tests
-        run: phpdbg -qrr vendor/bin/phpunit
+        run: ./vendor/bin/phpunit
       - name: Unit Codecov
         if: matrix.php-version == '7.3' && !matrix.composer-update
         uses: Atrox/codecov-action@v0.1.3

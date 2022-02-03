@@ -4,7 +4,6 @@ namespace DDB\Stats;
 
 interface StatisticsCollector
 {
-
     /**
      * Register an event which occurred within the application.
      *
